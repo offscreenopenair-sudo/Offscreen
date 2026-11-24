@@ -9,22 +9,33 @@
   <link rel="icon" href="assets/logo/offscreen-icon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/logo/offscreen-icon.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="home.css">
 </head>
-<body>
-  <header class="topbar">
-    <div class="wrap narrow">
-      <a class="brand" href="index.html"><img class="wordmark" src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen"></a>
+<body class="home">
+  <header class="gnav">
+    <div class="gnav-in">
+      <a class="gnav-logo" href="index.html"><img src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen"></a>
+      <nav aria-label="Seitenbereiche">
+        <a href="index.html#abend">Der Abend</a>
+        <a href="index.html#filme">Filme</a>
+        <a href="index.html#ablauf">Ablauf</a>
+        <a href="index.html#infos">Fragen</a>
+      </nav>
+      <a class="gnav-cta" href="index.html#anmelden">Anmelden</a>
     </div>
   </header>
-  <main class="wrap narrow" style="padding-block:1rem 3rem">
+  <main class="doc doc-ticket">
+    <h1>Deine Eintrittskarte.</h1>
+    <p class="doc-lead">Zeig den QR-Code am Einlass auf dem Handy vor.</p>
     <div id="ticket"></div>
     <div id="error" class="msg bad" role="alert" hidden></div>
+    <div class="actions"><a class="btn ghost" data-link="kalenderDatei" href="offscreen.ics" download="offscreen.ics"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg> In Kalender eintragen</a></div>
     <p class="note" style="text-align:center">Tipp: Mach einen Screenshot oder setz ein Lesezeichen, dann hast du die Karte am Einlass sofort griffbereit.</p>
   </main>
-  <footer>
-    <div class="wrap narrow">
-      <span data-event="veranstalter"></span>
-      <nav aria-label="Rechtliches"><a data-link="impressumUrl" href="#">Impressum</a><a data-link="datenschutzUrl" href="#">Datenschutz</a></nav>
+  <footer class="gfoot">
+    <div class="inner">
+      <p>Veranstaltungskaufleute der Robert-Schuman-Schule · Klasse W2VA2T</p>
+      <nav aria-label="Rechtliches"><a href="index.html">Startseite</a><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></nav>
     </div>
   </footer>
 

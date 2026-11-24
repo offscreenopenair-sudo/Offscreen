@@ -8,36 +8,51 @@
   <link rel="icon" href="assets/logo/offscreen-icon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/logo/offscreen-icon.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
-  <style>.legal h2 { font-size: 1.2rem; margin: 2rem 0 0.5rem; } .legal p, .legal li { color: var(--muted); } .todo { color: var(--red-hell); }</style>
+  <link rel="stylesheet" href="home.css">
 </head>
-<body>
-  <header class="topbar"><div class="wrap narrow"><a class="brand" href="index.html"><img class="wordmark" src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen"></a></div></header>
-  <main class="wrap narrow legal" style="padding-block:1.5rem 3rem">
-    <p class="demo-note">Entwurf und keine Rechtsberatung: Vor der Veröffentlichung mit der Schule bzw. dem Datenschutzbeauftragten der Schule abstimmen.</p>
-    <h1 style="font-size:2rem;margin-top:1.5rem">Datenschutzerklärung</h1>
+<body class="home page-light">
+  <header class="gnav">
+    <div class="gnav-in">
+      <a class="gnav-logo" href="index.html"><img src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen"></a>
+      <nav aria-label="Seitenbereiche">
+        <a href="index.html#abend">Der Abend</a>
+        <a href="index.html#filme">Filme</a>
+        <a href="index.html#ablauf">Ablauf</a>
+        <a href="index.html#infos">Fragen</a>
+      </nav>
+      <a class="gnav-cta" href="index.html#anmelden">Anmelden</a>
+    </div>
+  </header>
+  <main class="doc">
+    <h1>Datenschutzerklärung</h1>
 
     <h2>1. Verantwortliche Stelle</h2>
-    <p><span class="todo">[Name und Anschrift der Schule, Kontakt]</span><br>Datenschutzbeauftragte/r: <span class="todo">[Name, Kontakt]</span></p>
+    <p>Robert-Schuman-Schule, Rheinstraße 150, 76532 Baden-Baden<br>Telefon: 07221 93-1926 · E-Mail: <a href="mailto:rsb.sekretariat@rsb-bad.de">rsb.sekretariat@rsb-bad.de</a><br>Datenschutzbeauftragter: Herr Christoph Winter, Regierungspräsidium Karlsruhe, Abteilung 7 Schule und Bildung, Referat 71, Hebelstr. 2, 76133 Karlsruhe, E-Mail: <a href="mailto:bDSBGymBS@rpk.bwl.de">bDSBGymBS@rpk.bwl.de</a></p>
 
     <h2>2. Welche Daten wir erheben</h2>
     <p>Bei der Anmeldung zum Offscreen speichern wir: Vorname, Nachname, E-Mail-Adresse, Klasse oder Gruppe, deine Filmstimme, eine freiwillige Anmerkung, den Zeitpunkt der Anmeldung und den Zeitpunkt deines Check-ins am Einlass.</p>
 
     <h2>3. Zweck und Rechtsgrundlage</h2>
-    <p>Wir nutzen die Daten nur, um die Veranstaltung zu organisieren: Teilnehmerliste, Eintrittskarte per E-Mail, Einlasskontrolle, Auszählung der Filmabstimmung und Information bei Regen oder Änderungen. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du jederzeit per E-Mail an <span class="todo">[Kontaktadresse]</span> widerrufen kannst.</p>
+    <p>Wir nutzen die Daten nur, um die Veranstaltung zu organisieren: Teilnehmerliste, Eintrittskarte per E-Mail, Einlasskontrolle, Auszählung der Filmabstimmung und Information bei Regen oder Änderungen. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du jederzeit per E-Mail an <a href="mailto:offscreen.openair@gmail.com">offscreen.openair@gmail.com</a> widerrufen kannst.</p>
 
     <h2>4. Speicherort und Dienstleister</h2>
-    <p>Die Anmeldedaten werden in einer Google-Tabelle gespeichert und die Bestätigungs-E-Mail über Google versendet (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland). Dabei kann eine Übermittlung in die USA nicht ausgeschlossen werden. <span class="todo">[Mit der Schule klären, ob das zulässig ist oder ein schuleigener Dienst genutzt werden soll.]</span></p>
-    <p>Die Website wird bei <span class="todo">[Hoster, z. B. GitHub Pages]</span> bereitgestellt. Beim Aufruf verarbeitet der Hoster technisch notwendige Daten wie die IP-Adresse. Für die Darstellung der QR-Codes werden Programmbibliotheken von cdnjs (Cloudflare) und unpkg geladen.</p>
+    <p>Die Anmeldedaten werden in einer Google-Tabelle gespeichert und die Bestätigungs-E-Mail über Google versendet (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland). Dabei kann eine Übermittlung in die USA nicht ausgeschlossen werden. Google LLC ist unter dem EU-US Data Privacy Framework zertifiziert.</p>
+    <p>Die Website wird bei GitHub Pages (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) bereitgestellt. Beim Aufruf verarbeitet der Hoster technisch notwendige Daten wie die IP-Adresse. Für die Darstellung der QR-Codes werden Programmbibliotheken von cdnjs (Cloudflare) und unpkg geladen.</p>
 
     <h2>5. Speicherdauer</h2>
-    <p>Wir löschen alle Anmeldedaten spätestens <span class="todo">[z. B. 4 Wochen]</span> nach der Veranstaltung. Ausgenommen ist das anonyme Abstimmungsergebnis.</p>
+    <p>Wir löschen alle Anmeldedaten spätestens 4 Wochen nach der Veranstaltung. Ausgenommen ist das anonyme Abstimmungsergebnis.</p>
 
     <h2>6. Cookies und Tracking</h2>
     <p>Wir setzen keine Cookies zu Werbe- oder Analysezwecken und nutzen keine Tracking-Tools.</p>
 
     <h2>7. Deine Rechte</h2>
-    <p>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerruf deiner Einwilligung. Außerdem kannst du dich bei der zuständigen Datenschutz-Aufsichtsbehörde beschweren.</p>
+    <p>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerruf deiner Einwilligung. Außerdem kannst du dich bei der zuständigen Datenschutz-Aufsichtsbehörde beschweren. Das ist der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Baden-Württemberg, Lautenschlagerstraße 20, 70173 Stuttgart.</p>
   </main>
-  <footer><div class="wrap narrow"><a href="index.html">Zurück zur Startseite</a></div></footer>
+  <footer class="gfoot">
+    <div class="inner">
+      <p>Veranstaltungskaufleute der Robert-Schuman-Schule · Klasse W2VA2T</p>
+      <nav aria-label="Rechtliches"><a href="index.html">Startseite</a><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></nav>
+    </div>
+  </footer>
 </body>
 </html>

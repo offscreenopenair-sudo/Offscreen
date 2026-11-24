@@ -8,16 +8,18 @@ window.EVENT = {
   scriptUrl: "https://script.google.com/macros/s/AKfycbySrcUxK2vnpWBA6eLHm6AD7yPBM3pOBDrVPa8RESSFDCaD6oC5kx9gBfM2BMYLflHH/exec",
 
   name: "Offscreen",
-  tagline: "Film ab, wenn es dunkel wird.",
+  tagline: "", // Slogan, leer = keiner
   intro:
     "Am 3. Juni 2027 verwandeln wir den Skatepark auf dem Campus in ein Open-Air-Kino. Lounge, Foodtruck und ein Film, den ihr selbst wählt.",
-  veranstalter: "Veranstaltungskaufleute der RSB · Klasse W2VA2T",
+  veranstalter: "Veranstaltungskaufleute der Robert-Schuman-Schule · Klasse W2VA2T",
   datum: "Donnerstag, 3. Juni 2027",
   datumKurz: "03.06.2027",
   ort: "Campus-Gelände, Skatepark",
   einlass: "19:30",
   filmstart: "20:15",
   ende: "ca. 22:00",
+  countdownZiel: "2027-06-03T19:30:00+02:00", // Einlass, deutsche Sommerzeit
+  kalenderDatei: "offscreen.ics",
   eintritt: "Der Eintritt ist komplett kostenlos.",
 
   // Filme zur Abstimmung (vorbehaltlich der Vorführrechte)
@@ -26,11 +28,15 @@ window.EVENT = {
     { id: "kindskoepfe", titel: "Kindsköpfe", genre: "Komödie", laufzeit: 102, fsk: 6, trailer: "https://www.youtube.com/watch?v=mPOB7j2a_Ro" },
     { id: "hangover", titel: "Hangover", genre: "Komödie", laufzeit: 100, fsk: 12, trailer: "https://www.youtube.com/watch?v=_lGl1cn9AS4" },
   ],
-  abstimmungBis: "2027-05-27T23:59:00", // danach ist keine Filmwahl mehr möglich
-  zwischenstandZeigen: true,
+  // Online-Anmeldung (mit Filmwahl) ist bis zu diesem Zeitpunkt möglich. Danach nur noch Vor-Ort-Akkreditierung.
+  anmeldungBis: "2027-05-19T23:59:59",
+  abstimmungBis: "2027-05-19T23:59:59", // danach ist keine Filmwahl mehr möglich
+  plaetzeOnline: 45, // nur zur Anzeige, die echte Grenze steht in Code.gs
+  plaetzeVorOrt: 15,
+  zwischenstandZeigen: false, // true = Zwischenstand auf der Startseite zeigen (braucht dann auch Code.gs-Anpassung)
 
   // Kontakt: leer lassen, bis E-Mail und Kanäle feststehen
-  kontaktEmail: "",
+  kontaktEmail: "offscreen.openair@gmail.com",
   instagram: "", // z. B. "offscreen" (ohne @)
 
   impressumUrl: "impressum.html",

@@ -37,6 +37,7 @@
     <div class="counter" id="counter" hidden>
       <div><b id="c-in">0</b><span>eingecheckt</span></div>
       <div><b id="c-all">0</b><span>angemeldet</span></div>
+      <div><b id="c-vor">0</b><span>vor Ort</span></div>
     </div>
 
     <section class="card stack" id="login">
@@ -64,6 +65,21 @@
         </div>
       </form>
     </section>
+
+    <section class="card stack" id="walkin-card" hidden>
+      <div>
+        <h2 style="font-size:1.25rem">Ohne Anmeldung? Vor Ort aufnehmen</h2>
+        <p style="color:var(--muted);font-size:0.9rem;margin-top:0.3rem">Noch <strong id="w-frei" style="color:var(--white)">–</strong> Vor-Ort-Plätze frei. Der Gast wird direkt eingecheckt.</p>
+      </div>
+      <form id="walkin" class="stack" novalidate>
+        <div class="row">
+          <div class="field"><label for="w-vorname">Vorname</label><input id="w-vorname" required maxlength="60" autocomplete="off"></div>
+          <div class="field"><label for="w-nachname">Nachname</label><input id="w-nachname" required maxlength="60" autocomplete="off"></div>
+        </div>
+        <div class="field"><label for="w-klasse">Klasse oder Gruppe <span class="opt">(optional)</span></label><input id="w-klasse" maxlength="30" autocomplete="off" placeholder="z. B. W2VA2T oder Lehrkraft"></div>
+        <button class="btn block" id="w-btn" type="submit">Gast aufnehmen &amp; einlassen</button>
+      </form>
+    </section>
   </main>
 
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
@@ -82,6 +98,11 @@
       if (!s.ok) return s;
       $("c-in").textContent = s.eingecheckt;
       $("c-all").textContent = s.anmeldungen;
+      $("c-vor").textContent = s.vorOrt + " / " + s.maxVorOrt;
+      const frei = Math.max(0, s.maxVorOrt - s.vorOrt);
+      $("w-frei").textContent = frei;
+      $("w-btn").disabled = frei === 0;
+      $("w-btn").textContent = frei === 0 ? "Alle Vor-Ort-Plätze vergeben" : "Gast aufnehmen & einlassen";
       $("counter").hidden = false;
       return s;
     }
@@ -97,6 +118,7 @@
       try { sessionStorage.setItem("einlass-pin", pin); } catch {}
       $("login").hidden = true;
       $("desk").hidden = false;
+      $("walkin-card").hidden = false;
     }
     $("pin-form").addEventListener("submit", (e) => {
       e.preventDefault();
@@ -142,6 +164,24 @@
       e.preventDefault();
       check($("manual-id").value);
       $("manual-id").value = "";
+    });
+
+    $("walkin").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const v = $("w-vorname").value.trim(), n = $("w-nachname").value.trim(), k = $("w-klasse").value.trim();
+      $("w-vorname").setAttribute("aria-invalid", v ? "false" : "true");
+      $("w-nachname").setAttribute("aria-invalid", n ? "false" : "true");
+      if (!v || !n) return (v ? $("w-nachname") : $("w-vorname")).focus();
+      $("w-btn").disabled = true;
+      const res = await api("walkin", { pin, vorname: v, nachname: n, klasse: k });
+      $("w-btn").disabled = false;
+      if (!res.ok) show("bad", "Nicht aufgenommen", v + " " + n, errorText(res.error));
+      else {
+        show("ok", "Willkommen!", res.vorname + " " + res.nachname, ["Vor Ort aufgenommen um " + res.zeit + " Uhr", res.klasse].filter(Boolean).join(" · "));
+        $("walkin").reset();
+      }
+      $("result").scrollIntoView({ behavior: "smooth", block: "center" });
+      refreshStats();
     });
 
     let scanner = null;

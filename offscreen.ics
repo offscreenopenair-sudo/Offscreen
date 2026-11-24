@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Offscreen//Open-Air-Kino//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:offscreen-open-air-2027-06-03@offscreenopenair-sudo.github.io
+DTSTAMP:20261124T120000Z
+DTSTART:20270603T173000Z
+DTEND:20270603T200000Z
+SUMMARY:Offscreen – Open-Air-Kino
+LOCATION:Campus-Gelände\, Skatepark (Robert-Schuman-Schule\, Baden-Baden)
+DESCRIPTION:Einlass mit Musik 19:30 Uhr\, Filmstart 20:15 Uhr\, Ende ca. 2
+ 2:00 Uhr. Eintritt frei. Denk an dein Ticket mit QR-Code! https://offscree
+ nopenair-sudo.github.io/Offscreen/
+URL:https://offscreenopenair-sudo.github.io/Offscreen/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Offscreen startet in 2 Stunden
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

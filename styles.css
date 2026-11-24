@@ -253,3 +253,53 @@ footer a { color: var(--muted); }
   .info-tip { left: -4.2rem; transform: none; }
   .info-tip::after { left: 4.75rem; }
 }
+
+/* Countdown im Kino-Look (Leuchtrahmen wie bei einer Kinotafel) */
+.ticker {
+  position: relative; text-align: center; padding: 1.4rem 1rem 1.2rem; border-radius: 16px;
+  background: linear-gradient(180deg, #120305, #000000 70%);
+  border: 2px solid var(--red);
+  box-shadow: 0 0 0 6px #000, 0 0 0 7px rgb(172 19 39 / 0.45), 0 0 40px -8px rgb(172 19 39 / 0.7);
+}
+.ticker::before, .ticker::after {
+  content: ""; position: absolute; left: 14px; right: 14px; height: 6px;
+  background: radial-gradient(circle, #ffd9de 0 1.5px, var(--red) 2px 2.6px, transparent 3px) 0 50% / 16px 6px repeat-x;
+  animation: bulbs 1.6s steps(2) infinite;
+}
+.ticker::before { top: 6px; }
+.ticker::after { bottom: 6px; animation-delay: -0.8s; }
+@keyframes bulbs { 50% { opacity: 0.35; } }
+.ticker-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red-hell); margin: 0.2rem 0 0.8rem; }
+.ticker-digits { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(0.4rem, 2vw, 0.9rem); max-width: 34rem; margin: 0 auto; }
+.ticker-digits div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.7rem 0.2rem 0.55rem; position: relative; overflow: hidden; }
+.ticker-digits div::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgb(0 0 0 / 0.7); }
+.ticker-digits b { display: block; font: 700 clamp(2rem, 9vw, 3.4rem)/1 var(--font); color: var(--white); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.ticker-digits span { display: block; margin-top: 0.35rem; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.ticker-sub { margin: 0.9rem 0 0.2rem; font-size: 0.85rem; color: var(--muted); }
+.btn svg { flex: none; }
+
+/* Zeitstrahl: Stationen leuchten nacheinander auf */
+.js-anim .timeline li:not(.lit) time, .js-anim .timeline li:not(.lit) h3 { color: #5c5c5c; }
+.js-anim .timeline li:not(.lit) p { opacity: 0.45; }
+.js-anim .timeline li:not(.lit) .dot::before { background: var(--surface-2); box-shadow: none; }
+.timeline time, .timeline h3, .timeline p { transition: color 0.5s ease, opacity 0.5s ease; }
+.timeline .dot::before { transition: background 0.4s ease, box-shadow 0.4s ease; z-index: 1; }
+.timeline li.lit .dot::before { box-shadow: 0 0 0 5px rgb(172 19 39 / 0.25), 0 0 18px 2px rgb(172 19 39 / 0.7); }
+.js-anim .timeline .dot::after {
+  background: linear-gradient(var(--red), var(--red)) top / 100% 0% no-repeat, var(--line);
+  transition: background-size 0.9s ease 0.2s;
+}
+.js-anim .timeline li.lit .dot::after { background-size: 100% 100%, auto; }
+
+/* Einblenden beim Scrollen */
+.js-anim .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease var(--delay, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms); }
+.js-anim .reveal.in { opacity: 1; transform: none; }
+.hero-logo img, .hero .tagline, .hero .intro { animation: hero-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.hero .tagline { animation-delay: 0.12s; }
+.hero .intro { animation-delay: 0.22s; }
+@keyframes hero-in { from { opacity: 0; transform: translateY(18px); } }
+@media (prefers-reduced-motion: reduce) {
+  .js-anim .reveal { opacity: 1; transform: none; transition: none; }
+  .ticker::before, .ticker::after, .hero-logo img, .hero .tagline, .hero .intro { animation: none; }
+  .timeline .dot::after, .timeline .dot::before { transition: none; }
+}

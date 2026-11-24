@@ -95,7 +95,7 @@
       </div>
 
       <div class="kpis">
-        <div class="kpi"><b id="k-all">0</b><span>Anmeldungen</span></div>
+        <div class="kpi"><b id="k-all">0</b><span>Gäste gesamt</span><span class="sub" id="k-all-sub"></span></div>
         <div class="kpi"><b id="k-in">0</b><span>Eingecheckt</span><span class="sub" id="k-in-sub"></span></div>
         <div class="kpi"><b id="k-classes">0</b><span>Klassen / Gruppen</span></div>
         <div class="kpi"><b id="k-notes">0</b><span>mit Anmerkung</span></div>
@@ -197,10 +197,12 @@
       // Kennzahlen
       const inCount = all.filter((t) => t.checkedIn).length;
       $("k-all").textContent = all.length;
+      const vorOrt = all.filter((t) => t.anmerkung === "Vor-Ort-Akkreditierung").length;
+      $("k-all-sub").textContent = (all.length - vorOrt) + " online · " + vorOrt + " vor Ort";
       $("k-in").textContent = inCount;
       $("k-in-sub").textContent = all.length ? Math.round((inCount / all.length) * 100) + " % der Angemeldeten" : "";
       $("k-classes").textContent = new Set(all.map((t) => (t.klasse || "").trim().toUpperCase()).filter(Boolean)).size;
-      $("k-notes").textContent = all.filter((t) => t.anmerkung).length;
+      $("k-notes").textContent = all.filter((t) => t.anmerkung && t.anmerkung !== "Vor-Ort-Akkreditierung").length;
 
       // Filmstand
       const counts = E.filme.map((f) => ({ f, n: all.filter((t) => t.film === f.id).length }));

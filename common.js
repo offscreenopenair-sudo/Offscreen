@@ -6,8 +6,9 @@
   const DEMO_KEY = "demo-orc-anmeldungen";
 
   const ERRORS = {
-    full: "Leider sind alle Plätze vergeben.",
-    closed: "Die Anmeldung ist geschlossen.",
+    full: "Alle Online-Plätze sind vergeben. Am Abend gibt es am Einlass noch eine begrenzte Zahl an Plätzen.",
+    full_vor_ort: "Alle Vor-Ort-Plätze sind vergeben.",
+    closed: "Die Online-Anmeldung ist geschlossen. Am Abend gibt es am Einlass noch eine begrenzte Zahl an Plätzen.",
     invalid: "Bitte prüfe deine Angaben.",
     film: "Bitte wähle einen Film aus.",
     not_found: "Dieses Ticket ist nicht bekannt.",
@@ -54,6 +55,7 @@
         return r ? { ok: true, ...pub(r), checkedIn: r.checkedIn } : { ok: false, error: "not_found" };
       }
       case "votes":
+        if (p.pin !== DEMO_PIN) return { ok: false, error: "wrong_pin" };
         return votes(rows);
       case "checkin": {
         if (p.pin !== DEMO_PIN) return { ok: false, error: "wrong_pin" };
@@ -66,7 +68,17 @@
       }
       case "stats":
         if (p.pin !== DEMO_PIN) return { ok: false, error: "wrong_pin" };
-        return { ok: true, anmeldungen: rows.length, eingecheckt: rows.filter((r) => r.checkedIn).length };
+        return { ok: true, anmeldungen: rows.filter((r) => !r.vorOrt).length, eingecheckt: rows.filter((r) => r.checkedIn).length, vorOrt: rows.filter((r) => r.vorOrt).length, maxVorOrt: E.plaetzeVorOrt || 0 };
+      case "walkin": {
+        if (p.pin !== DEMO_PIN) return { ok: false, error: "wrong_pin" };
+        if (!p.vorname || !p.nachname) return { ok: false, error: "invalid" };
+        if (rows.filter((r) => r.vorOrt).length >= (E.plaetzeVorOrt || 0)) return { ok: false, error: "full_vor_ort" };
+        const zeit = new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+        const row = { id: newId(), vorname: p.vorname, nachname: p.nachname, email: "", klasse: p.klasse || "", film: "", anmerkung: "Vor-Ort-Akkreditierung", vorOrt: true, angemeldet: new Date().toISOString(), checkedIn: zeit };
+        rows.push(row);
+        demoSave(rows);
+        return { ok: true, id: row.id, vorname: row.vorname, nachname: row.nachname, klasse: row.klasse, zeit };
+      }
       case "list":
         if (p.pin !== DEMO_PIN) return { ok: false, error: "wrong_pin" };
         return {

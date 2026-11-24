@@ -10,70 +10,87 @@
   <link rel="icon" href="assets/logo/offscreen-icon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/logo/offscreen-icon.png">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="home.css">
 </head>
-<body>
-  <header class="topbar">
-    <div class="wrap">
-      <a class="brand" href="#top"><img class="wordmark" src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen"></a>
-      <nav class="nav" aria-label="Seitenbereiche">
+<body class="home">
+  <header class="gnav">
+    <div class="gnav-in">
+      <a class="gnav-logo" href="#top"><img src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen"></a>
+      <nav aria-label="Seitenbereiche">
+        <a href="#abend">Der Abend</a>
         <a href="#filme">Filme</a>
         <a href="#ablauf">Ablauf</a>
-        <a href="#infos">Infos</a>
-        <a class="nav-cta" href="#anmelden" style="color:var(--red-hell);font-weight:700">Anmelden</a>
+        <a href="#infos">Fragen</a>
       </nav>
+      <a class="gnav-cta" href="#anmelden">Anmelden</a>
     </div>
   </header>
 
   <main id="top">
-    <section class="hero">
-      <div class="wrap">
-        <h1 class="hero-logo"><img src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen" width="1200" height="200"></h1>
-        <p class="tagline" data-event="tagline"></p>
-        <p class="intro" data-event="intro"></p>
-        <dl class="facts">
-          <div><dt>Datum</dt><dd data-event="datum"></dd></div>
-          <div><dt>Einlass</dt><dd><span data-event="einlass"></span> Uhr</dd></div>
-          <div><dt>Ort</dt><dd data-event="ort"></dd></div>
-        </dl>
-        <div class="hero-actions">
-          <a class="btn" href="#anmelden">Anmelden &amp; Film wählen</a>
-          <a class="btn ghost" href="#filme">Zu den Filmen</a>
+    <section class="h-hero">
+      <div class="inner">
+        <h1 class="h-logo"><img src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen" width="1200" height="200"></h1>
+        <p class="h-title">Kino unter<br>freiem Himmel.</p>
+        <p class="h-sub"><span data-event="datum"></span><br>Skatepark auf dem Campus. Eintritt frei.</p>
+        <div class="h-cta">
+          <a class="pill" href="#anmelden">Jetzt anmelden</a>
+          <a class="more" data-link="kalenderDatei" href="offscreen.ics" download="offscreen.ics">Termin speichern</a>
+        </div>
+        <div class="h-count" id="ticker">
+          <div class="h-digits" id="ticker-digits" aria-hidden="true">
+            <div><b id="cd-d">--</b><span>Tage</span></div>
+            <div><b id="cd-h">--</b><span>Stunden</span></div>
+            <div><b id="cd-m">--</b><span>Minuten</span></div>
+            <div><b id="cd-s">--</b><span>Sekunden</span></div>
+          </div>
+          <p class="h-count-label" id="ticker-label">bis der Einlass öffnet.</p>
         </div>
       </div>
     </section>
 
-    <section class="block" id="filme">
-      <div class="wrap">
-        <div class="block-head">
-          <p class="eyebrow">Filmabstimmung</p>
-          <h2>Ihr entscheidet, was läuft</h2>
-          <p id="vote-lead">Bei der Anmeldung gibst du eine Stimme ab. Der Film mit den meisten Stimmen läuft am Abend.</p>
+    <section class="sec sec-light" id="abend">
+      <div class="inner">
+        <h2>Ein Abend. Ein Film.<br>Eure Wahl.</h2>
+        <p class="sec-lead">Wir verwandeln den Skatepark in ein Open-Air-Kino. Große Leinwand, satter Sound, Musik und Foodtruck. Dazu der Film, den ihr auswählt.</p>
+        <div class="keyfacts">
+          <div><b>03.06.</b><span>Donnerstag</span></div>
+          <div><b><span data-event="einlass"></span></b><span>Einlass</span></div>
+          <div><b>0&nbsp;€</b><span>Eintritt</span></div>
+          <div><b>Open Air</b><span>im Skatepark</span></div>
         </div>
+        <p class="keyfacts-note">Ab Einlass: Musik, Getränke und Topped Fries.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="filme">
+      <div class="inner">
+        <h2>Ihr wählt den Film.</h2>
+        <p class="sec-lead" id="vote-lead">Bei der Anmeldung gibst du deine Stimme ab. Der Film mit den meisten Stimmen läuft. Welcher das ist, bleibt bis zum Abend geheim.</p>
         <div class="films" id="films"></div>
-        <p class="note">Alle Filme stehen unter Vorbehalt der Vorführrechte. Die Altersfreigabe (FSK) gilt auch am Abend.</p>
+        <p class="note">Alle Filme unter Vorbehalt der Vorführrechte. Die Altersfreigabe gilt auch am Abend.</p>
       </div>
     </section>
 
-    <section class="block" id="ablauf">
-      <div class="wrap narrow">
-        <div class="block-head">
-          <p class="eyebrow">Ablauf</p>
-          <h2>Der Abend in der Bowl</h2>
-        </div>
-        <ol class="timeline">
-          <li><time data-event="einlass"></time><span class="dot"></span><div><h3>Einlass &amp; Lounge</h3><p>Ankommen, Platz suchen, Foodtruck und Getränkestation sind geöffnet.</p></div></li>
-          <li><time data-event="filmstart"></time><span class="dot"></span><div><h3>Film ab</h3><p>Sobald es dunkel wird, startet der Gewinnerfilm auf der großen Leinwand.</p></div></li>
-          <li><time>22:00</time><span class="dot"></span><div><h3>Abspann</h3><p>Ende gegen 22:00 Uhr. Danach bauen wir ab.</p></div></li>
+    <section class="sec sec-white" id="ablauf">
+      <div class="inner">
+        <h2>So läuft der Abend.</h2>
+        <ol class="steps">
+          <li><time data-event="einlass"></time><h3>Einlass &amp; Musik</h3><p>Ankommen, Platz suchen, Essen holen. Bis der Film startet, läuft Musik.</p></li>
+          <li><time data-event="filmstart"></time><h3>Film ab</h3><p>Der Gewinnerfilm auf großer Leinwand, mit einer Soundanlage, die den ganzen Skatepark füllt.</p></li>
+          <li><time>22:00</time><h3>Abspann</h3><p>Das Ende ist gegen 22 Uhr.</p></li>
         </ol>
       </div>
     </section>
 
-    <section class="block" id="anmelden">
-      <div class="wrap narrow">
-        <div class="block-head">
-          <p class="eyebrow">Anmeldung</p>
-          <h2>Sichere dir deinen Platz</h2>
-          <p>Nach der Anmeldung bekommst du deine Eintrittskarte mit QR-Code, direkt hier und per E-Mail. Über diese Adresse informieren wir dich auch, falls es regnet.</p>
+    <section class="sec" id="anmelden">
+      <div class="inner">
+        <h2>Dein Platz.<br>Deine Stimme.</h2>
+        <p class="sec-lead">Melde dich an und wähl deinen Film. Deine Eintrittskarte mit QR-Code bekommst du sofort hier und per E-Mail.</p>
+        <p class="sec-small" id="anmeldung-bis" hidden></p>
+        <div class="form-wrap">
+        <div class="card" id="closed-card" hidden>
+          <h3>Die Online-Anmeldung ist geschlossen</h3>
+          <p style="color:var(--muted);margin-top:0.5rem">Du kannst trotzdem vorbeikommen: Am Abend vergeben wir am Einlass eine begrenzte Zahl an Plätzen, solange der Vorrat reicht. Wer schon angemeldet ist, findet sein Ticket in der E-Mail.</p>
         </div>
 
         <div class="card" id="form-card">
@@ -121,7 +138,7 @@
             </div>
             <label class="check" for="dsgvo">
               <input id="dsgvo" name="dsgvo" type="checkbox" required>
-              <span>Ich bin einverstanden, dass meine Angaben zur Organisation des Offscreen gespeichert werden. Mehr dazu in der <a data-link="datenschutzUrl" href="#" target="_blank" rel="noopener">Datenschutzerklärung</a>.</span>
+              <span>Ich bin einverstanden, dass meine Angaben zur Organisation von Offscreen gespeichert werden. Mehr dazu in der <a data-link="datenschutzUrl" href="#" target="_blank" rel="noopener">Datenschutzerklärung</a>.</span>
             </label>
             <div id="error" class="msg bad" role="alert" hidden></div>
             <button class="btn block" id="submit" type="submit">Anmelden</button>
@@ -136,42 +153,36 @@
           <div id="ticket"></div>
           <div class="actions" id="ticket-actions" hidden>
             <a class="btn" id="t-link" href="#">Karte öffnen &amp; speichern</a>
+            <a class="btn ghost" data-link="kalenderDatei" href="offscreen.ics" download="offscreen.ics"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg> In Kalender eintragen</a>
             <button class="btn ghost" id="again" type="button">Weitere Person anmelden</button>
           </div>
         </div>
+        </div>
       </div>
     </section>
 
-    <section class="block" id="infos">
-      <div class="wrap narrow">
-        <div class="block-head">
-          <p class="eyebrow">Infos &amp; FAQ</p>
-          <h2>Gut zu wissen</h2>
-        </div>
+    <section class="sec sec-light" id="infos">
+      <div class="inner">
+        <h2>Fragen? Antworten.</h2>
         <div class="faq">
           <details><summary>Was kostet der Eintritt?</summary><p data-event="eintritt"></p></details>
-          <details><summary>Wer darf kommen?</summary><p>Das Offscreen ist eine schulinterne Veranstaltung für Schülerinnen und Schüler der RSB. Lehrkräfte sind nach Absprache willkommen.</p></details>
-          <details><summary>Was passiert bei Regen?</summary><p>Bei Regen bekommen alle Angemeldeten eine E-Mail mit dem Ausweichort. Deshalb ist die Anmeldung mit E-Mail-Adresse wichtig.</p></details>
-          <details><summary>Gibt es Essen und Getränke?</summary><p>Ja! Ab Einlass gibt es verschiedene Getränke, frische Langos und Topped Fries.</p></details>
-          <details><summary>Wie funktioniert die Filmwahl?</summary><p>Jede Anmeldung zählt als eine Stimme. Der Film mit den meisten Stimmen wird gezeigt. Die Auswahl steht unter Vorbehalt der Vorführrechte.</p></details>        </div>
-      </div>
-    </section>
-
-    <section class="block" id="kontakt">
-      <div class="wrap narrow">
-        <div class="block-head">
-          <p class="eyebrow">Kontakt</p>
-          <h2>Fragen oder Lust, uns zu unterstützen?</h2>
-          <p>Ob Frage zum Abend oder Interesse am Sponsoring: Schreib uns.</p>
+          <details><summary>Wer darf kommen?</summary><p>Alle Schülerinnen und Schüler sowie alle Lehrkräfte der Robert-Schuman-Schule sind herzlich willkommen.</p></details>
+          <details><summary>Bis wann kann ich mich anmelden?</summary><p id="faq-anmeldung">Online bis zum 19. Mai 2027. Am Abend selbst vergeben wir am Einlass noch eine begrenzte Zahl an Plätzen, solange welche frei sind. Mit Anmeldung bist du auf der sicheren Seite.</p></details>
+          <details><summary>Was passiert bei Regen?</summary><p>Dann bekommen alle Angemeldeten eine E-Mail mit dem Ausweichort. Deshalb fragen wir bei der Anmeldung nach deiner E-Mail-Adresse.</p></details>
+          <details><summary>Gibt es Essen und Getränke?</summary><p>Ja. Ab Einlass gibt es verschiedene Getränke und Topped Fries.</p></details>
+          <details><summary>Wie funktioniert die Filmwahl?</summary><p>Jede Anmeldung zählt als eine Stimme. Der Film mit den meisten Stimmen wird gezeigt. Das Ergebnis bleibt bis zum Abend geheim. Die Auswahl steht unter Vorbehalt der Vorführrechte.</p></details>
         </div>
-        <p id="contact"></p>
+        <div class="contact" id="kontakt">
+          <p class="contact-q">Noch etwas offen? Oder Lust, uns zu unterstützen?</p>
+          <p id="contact"></p>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="wrap">
-      <span data-event="veranstalter"></span>
+  <footer class="gfoot">
+    <div class="inner">
+      <p><span data-event="veranstalter"></span></p>
       <nav aria-label="Rechtliches"><a data-link="impressumUrl" href="#">Impressum</a><a data-link="datenschutzUrl" href="#">Datenschutz</a></nav>
     </div>
   </footer>
@@ -183,7 +194,61 @@
     const { E, api, ticketUrl, renderTicket, fillEventFields, errorText, votingOpen, formatDeadline } = App;
     fillEventFields();
     const $ = (id) => document.getElementById(id);
+
+    // Countdown bis zum Einlass
+    (function countdown() {
+      const ziel = new Date(E.countdownZiel).getTime();
+      if (!ziel) return ($("ticker").hidden = true);
+      const ende = ziel + 2.5 * 3600 * 1000; // ca. 22:00 Uhr
+      const pad = (n) => String(n).padStart(2, "0");
+      function tick() {
+        const jetzt = Date.now();
+        if (jetzt >= ziel) {
+          $("ticker-digits").hidden = true;
+          $("ticker-label").textContent = jetzt < ende ? "Heute Abend: Film ab!" : "Danke, dass ihr da wart!";
+          return;
+        }
+        let s = Math.floor((ziel - jetzt) / 1000);
+        const d = Math.floor(s / 86400); s %= 86400;
+        const h = Math.floor(s / 3600); s %= 3600;
+        const m = Math.floor(s / 60); s %= 60;
+        $("cd-d").textContent = d; $("cd-h").textContent = pad(h); $("cd-m").textContent = pad(m); $("cd-s").textContent = pad(s);
+        setTimeout(tick, 1000 - (Date.now() % 1000));
+      }
+      tick();
+    })();
+
+    // Sanftes Einblenden beim Scrollen, Ablauf-Stationen leuchten nacheinander auf
+    (function scrollEffekte() {
+      if (!("IntersectionObserver" in window)) return;
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      document.documentElement.classList.add("js-anim");
+      const ziele = document.querySelectorAll(".sec h2, .sec-lead, .keyfacts, .keyfacts-note, .film, .form-wrap, .faq, .contact");
+      ziele.forEach((el) => el.classList.add("reveal"));
+      document.querySelectorAll(".films .film").forEach((el, i) => el.style.setProperty("--delay", i * 110 + "ms"));
+      const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      }), { rootMargin: "0px 0px -10% 0px", threshold: 0.15 });
+      ziele.forEach((el) => io.observe(el));
+
+      let naechste = 0;
+      const tio = new IntersectionObserver((entries) => entries.filter((e) => e.isIntersecting).forEach((e) => {
+        tio.unobserve(e.target);
+        const jetzt = performance.now();
+        naechste = Math.max(jetzt + 150, naechste + 550);
+        setTimeout(() => e.target.classList.add("lit"), naechste - jetzt);
+      }), { rootMargin: "0px 0px -20% 0px", threshold: 0.5 });
+      document.querySelectorAll(".steps li").forEach((li) => tio.observe(li));
+    })();
     const open = votingOpen();
+    const anmeldungOffen = !E.anmeldungBis || new Date() <= new Date(E.anmeldungBis);
+    if (!anmeldungOffen) {
+      $("form-card").hidden = true;
+      $("closed-card").hidden = false;
+    } else if (E.anmeldungBis) {
+      $("anmeldung-bis").textContent = "Online-Anmeldung bis " + formatDeadline(E.anmeldungBis) + ". Danach gibt es nur noch eine begrenzte Zahl an Plätzen vor Ort.";
+      $("anmeldung-bis").hidden = false;
+    }
 
     // Info-Symbol: auf dem Handy per Antippen öffnen, mit Esc oder Tippen daneben schließen
     document.querySelectorAll(".info").forEach((info) => {
@@ -210,7 +275,7 @@
     E.filme.forEach((f) => ($("films").querySelector(`[data-id="${f.id}"] h3`).textContent = f.titel));
 
     if (!open) {
-      $("vote-lead").textContent = "Die Abstimmung ist beendet. Danke fürs Mitmachen!";
+      $("vote-lead").textContent = "Die Abstimmung ist beendet. Danke fürs Mitmachen! Welcher Film gewonnen hat, erfahrt ihr am Abend.";
       $("film-field").hidden = true;
     } else if (E.abstimmungBis) {
       $("deadline").textContent = "(Abstimmung bis " + formatDeadline(E.abstimmungBis) + ")";
