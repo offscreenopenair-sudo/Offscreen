@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Offscreen</title>
+  <meta name="description" content="Open-Air-Kino im Skatepark auf dem Campus am 3. Juni 2027. Jetzt anmelden und den Film wählen.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="assets/logo/offscreen-icon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/logo/offscreen-icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/logo/offscreen-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top"><img class="wordmark" src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen"></a>
+      <nav class="nav" aria-label="Seitenbereiche">
+        <a href="#filme">Filme</a>
+        <a href="#ablauf">Ablauf</a>
+        <a href="#infos">Infos</a>
+        <a class="nav-cta" href="#anmelden" style="color:var(--red-hell);font-weight:700">Anmelden</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <h1 class="hero-logo"><img src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen" width="1200" height="200"></h1>
+        <p class="tagline" data-event="tagline"></p>
+        <p class="intro" data-event="intro"></p>
+        <dl class="facts">
+          <div><dt>Datum</dt><dd data-event="datum"></dd></div>
+          <div><dt>Einlass</dt><dd><span data-event="einlass"></span> Uhr</dd></div>
+          <div><dt>Ort</dt><dd data-event="ort"></dd></div>
+        </dl>
+        <div class="hero-actions">
+          <a class="btn" href="#anmelden">Anmelden &amp; Film wählen</a>
+          <a class="btn ghost" href="#filme">Zu den Filmen</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="filme">
+      <div class="wrap">
+        <div class="block-head">
+          <p class="eyebrow">Filmabstimmung</p>
+          <h2>Ihr entscheidet, was läuft</h2>
+          <p id="vote-lead">Bei der Anmeldung gibst du eine Stimme ab. Der Film mit den meisten Stimmen läuft am Abend.</p>
+        </div>
+        <div class="films" id="films"></div>
+        <p class="note">Alle Filme stehen unter Vorbehalt der Vorführrechte. Die Altersfreigabe (FSK) gilt auch am Abend.</p>
+      </div>
+    </section>
+
+    <section class="block" id="ablauf">
+      <div class="wrap narrow">
+        <div class="block-head">
+          <p class="eyebrow">Ablauf</p>
+          <h2>Der Abend in der Bowl</h2>
+        </div>
+        <ol class="timeline">
+          <li><time data-event="einlass"></time><span class="dot"></span><div><h3>Einlass &amp; Lounge</h3><p>Ankommen, Platz suchen, Foodtruck und Getränkestation sind geöffnet.</p></div></li>
+          <li><time data-event="filmstart"></time><span class="dot"></span><div><h3>Film ab</h3><p>Sobald es dunkel wird, startet der Gewinnerfilm auf der großen Leinwand.</p></div></li>
+          <li><time>22:00</time><span class="dot"></span><div><h3>Abspann</h3><p>Ende gegen 22:00 Uhr. Danach bauen wir ab.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="block" id="anmelden">
+      <div class="wrap narrow">
+        <div class="block-head">
+          <p class="eyebrow">Anmeldung</p>
+          <h2>Sichere dir deinen Platz</h2>
+          <p>Nach der Anmeldung bekommst du deine Eintrittskarte mit QR-Code, direkt hier und per E-Mail. Über diese Adresse informieren wir dich auch, falls es regnet.</p>
+        </div>
+
+        <div class="card" id="form-card">
+          <form id="form" novalidate>
+            <p class="demo-note" data-demo hidden>Demo-Modus: Anmeldungen werden nur in diesem Browser gespeichert. Trag in <code>config.js</code> die Adresse deines Google-Skripts ein, um live zu gehen.</p>
+            <div class="row">
+              <div class="field">
+                <label for="vorname">Vorname</label>
+                <input id="vorname" name="vorname" autocomplete="given-name" required maxlength="60">
+              </div>
+              <div class="field">
+                <label for="nachname">Nachname</label>
+                <input id="nachname" name="nachname" autocomplete="family-name" required maxlength="60">
+              </div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <span class="label-row">
+                  <label for="email">E-Mail</label>
+                  <span class="info">
+                    <button type="button" class="info-btn" aria-label="Wofür brauchen wir deine E-Mail?" aria-describedby="email-info">i</button>
+                    <span class="info-tip" role="tooltip" id="email-info">Wir nutzen deine E-Mail-Adresse nur, um dir deine Eintrittskarte zu schicken und dich vor dem Abend auf dem Laufenden zu halten, zum Beispiel wenn wir wegen Regen an einen anderen Ort ausweichen.</span>
+                  </span>
+                </span>
+                <input id="email" name="email" type="email" autocomplete="email" required maxlength="120" inputmode="email">
+              </div>
+              <div class="field">
+                <label for="klasse">Klasse oder Gruppe</label>
+                <input id="klasse" name="klasse" required maxlength="30" placeholder="z. B. W2VA2T oder Lehrkraft">
+              </div>
+            </div>
+
+            <fieldset id="film-field">
+              <legend>Dein Film <span class="opt" id="deadline"></span></legend>
+              <div class="picks" id="picks"></div>
+            </fieldset>
+
+            <div class="field">
+              <label for="anmerkung">Anmerkung <span class="opt">(optional, z. B. Allergien oder Barrierefreiheit)</span></label>
+              <textarea id="anmerkung" name="anmerkung" maxlength="400"></textarea>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="website">Website</label>
+              <input id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <label class="check" for="dsgvo">
+              <input id="dsgvo" name="dsgvo" type="checkbox" required>
+              <span>Ich bin einverstanden, dass meine Angaben zur Organisation des Offscreen gespeichert werden. Mehr dazu in der <a data-link="datenschutzUrl" href="#" target="_blank" rel="noopener">Datenschutzerklärung</a>.</span>
+            </label>
+            <div id="error" class="msg bad" role="alert" hidden></div>
+            <button class="btn block" id="submit" type="submit">Anmelden</button>
+          </form>
+        </div>
+
+        <div id="result" hidden>
+          <div id="resent" class="card" hidden>
+            <h3>Du bist schon angemeldet</h3>
+            <p style="color:var(--muted);margin-top:0.5rem">Wir haben dir deine Eintrittskarte noch einmal an <strong id="resent-mail" style="color:var(--white)"></strong> geschickt. Schau auch im Spam-Ordner nach.</p>
+          </div>
+          <div id="ticket"></div>
+          <div class="actions" id="ticket-actions" hidden>
+            <a class="btn" id="t-link" href="#">Karte öffnen &amp; speichern</a>
+            <button class="btn ghost" id="again" type="button">Weitere Person anmelden</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="infos">
+      <div class="wrap narrow">
+        <div class="block-head">
+          <p class="eyebrow">Infos &amp; FAQ</p>
+          <h2>Gut zu wissen</h2>
+        </div>
+        <div class="faq">
+          <details><summary>Was kostet der Eintritt?</summary><p data-event="eintritt"></p></details>
+          <details><summary>Wer darf kommen?</summary><p>Das Offscreen ist eine schulinterne Veranstaltung für Schülerinnen und Schüler der RSB. Lehrkräfte sind nach Absprache willkommen.</p></details>
+          <details><summary>Was passiert bei Regen?</summary><p>Bei Regen bekommen alle Angemeldeten eine E-Mail mit dem Ausweichort. Deshalb ist die Anmeldung mit E-Mail-Adresse wichtig.</p></details>
+          <details><summary>Gibt es Essen und Getränke?</summary><p>Ja! Ab Einlass gibt es verschiedene Getränke, frische Langos und Topped Fries.</p></details>
+          <details><summary>Wie funktioniert die Filmwahl?</summary><p>Jede Anmeldung zählt als eine Stimme. Der Film mit den meisten Stimmen wird gezeigt. Die Auswahl steht unter Vorbehalt der Vorführrechte.</p></details>        </div>
+      </div>
+    </section>
+
+    <section class="block" id="kontakt">
+      <div class="wrap narrow">
+        <div class="block-head">
+          <p class="eyebrow">Kontakt</p>
+          <h2>Fragen oder Lust, uns zu unterstützen?</h2>
+          <p>Ob Frage zum Abend oder Interesse am Sponsoring: Schreib uns.</p>
+        </div>
+        <p id="contact"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span data-event="veranstalter"></span>
+      <nav aria-label="Rechtliches"><a data-link="impressumUrl" href="#">Impressum</a><a data-link="datenschutzUrl" href="#">Datenschutz</a></nav>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="config.js"></script>
+  <script src="common.js"></script>
+  <script>
+    const { E, api, ticketUrl, renderTicket, fillEventFields, errorText, votingOpen, formatDeadline } = App;
+    fillEventFields();
+    const $ = (id) => document.getElementById(id);
+    const open = votingOpen();
+
+    // Info-Symbol: auf dem Handy per Antippen öffnen, mit Esc oder Tippen daneben schließen
+    document.querySelectorAll(".info").forEach((info) => {
+      info.querySelector(".info-btn").addEventListener("click", (e) => { e.preventDefault(); info.classList.toggle("open"); });
+    });
+    document.addEventListener("click", (e) => document.querySelectorAll(".info.open").forEach((i) => { if (!i.contains(e.target)) i.classList.remove("open"); }));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") document.querySelectorAll(".info.open").forEach((i) => i.classList.remove("open")); });
+
+    // Filme
+    const fskClass = (n) => "fsk fsk-" + n;
+    $("films").innerHTML = E.filme.map((f) => `
+      <article class="film" data-id="${f.id}">
+        <div class="film-top">
+          <h3></h3>
+          <span class="${fskClass(f.fsk)}" title="Freigegeben ab ${f.fsk} Jahren">FSK<b>${f.fsk}</b></span>
+        </div>
+        <p class="meta">${f.genre} · ${f.laufzeit} Min.</p>
+        ${f.trailer ? `<a class="trailer" href="${f.trailer}" target="_blank" rel="noopener">Trailer ansehen <span aria-hidden="true">↗</span><span class="sr">(YouTube, neues Fenster)</span></a>` : ""}
+        <div class="tally" hidden>
+          <div class="bar"><span style="width:0"></span></div>
+          <div class="votes"><span class="pct"></span><span class="cnt"></span></div>
+        </div>
+      </article>`).join("");
+    E.filme.forEach((f) => ($("films").querySelector(`[data-id="${f.id}"] h3`).textContent = f.titel));
+
+    if (!open) {
+      $("vote-lead").textContent = "Die Abstimmung ist beendet. Danke fürs Mitmachen!";
+      $("film-field").hidden = true;
+    } else if (E.abstimmungBis) {
+      $("deadline").textContent = "(Abstimmung bis " + formatDeadline(E.abstimmungBis) + ")";
+    }
+
+    async function loadVotes() {
+      if (!E.zwischenstandZeigen) return;
+      const v = await api("votes");
+      if (!v.ok || !v.gesamt) return;
+      for (const f of E.filme) {
+        const card = $("films").querySelector(`[data-id="${f.id}"]`);
+        const n = v.stimmen[f.id] || 0;
+        const pct = Math.round((n / v.gesamt) * 100);
+        card.querySelector(".tally").hidden = false;
+        card.querySelector(".bar span").style.width = pct + "%";
+        card.querySelector(".pct").textContent = pct + " %";
+        card.querySelector(".cnt").textContent = n === 1 ? "1 Stimme" : n + " Stimmen";
+      }
+    }
+    loadVotes();
+
+    // Filmauswahl im Formular
+    $("picks").innerHTML = E.filme.map((f) => `
+      <label class="pick" for="film-${f.id}">
+        <input type="radio" name="film" id="film-${f.id}" value="${f.id}">
+        <span><strong></strong><br><small>${f.genre} · ${f.laufzeit} Min.</small></span>
+        <span class="${fskClass(f.fsk)}" style="width:2.1rem;height:2.1rem">FSK<b style="font-size:0.85rem">${f.fsk}</b></span>
+      </label>`).join("");
+    E.filme.forEach((f) => ($("film-" + f.id).parentElement.querySelector("strong").textContent = f.titel));
+
+    // Kontakt
+    const c = $("contact");
+    if (E.kontaktEmail) {
+      const a = document.createElement("a");
+      a.href = "mailto:" + E.kontaktEmail;
+      a.textContent = E.kontaktEmail;
+      a.style.fontSize = "1.2rem";
+      a.style.fontWeight = "700";
+      c.append(a);
+    } else {
+      c.textContent = "Unsere Kontaktadresse veröffentlichen wir hier in Kürze.";
+      c.style.color = "var(--muted)";
+    }
+    if (E.instagram) {
+      const a = document.createElement("a");
+      a.href = "https://instagram.com/" + E.instagram;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = "Instagram: @" + E.instagram;
+      c.append(document.createElement("br"), a);
+    }
+
+    // Anmeldung
+    const form = $("form"), err = $("error"), btn = $("submit");
+    const showError = (t) => { err.textContent = t; err.hidden = false; };
+
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      err.hidden = true;
+      let firstBad = null, msg = "Bitte fülle alle Pflichtfelder aus.";
+      for (const el of form.querySelectorAll("input[required]")) {
+        const bad = el.type === "checkbox" ? !el.checked : !el.value.trim() || (el.type === "email" && !el.checkValidity());
+        el.setAttribute("aria-invalid", bad ? "true" : "false");
+        if (bad && !firstBad) {
+          firstBad = el;
+          if (el.id === "dsgvo") msg = "Bitte stimme der Speicherung deiner Daten zu.";
+          else if (el.id === "email" && el.value) msg = "Bitte gib eine gültige E-Mail-Adresse ein.";
+        }
+      }
+      const film = form.querySelector("input[name=film]:checked");
+      const filmMissing = open && !film;
+      $("film-field").setAttribute("aria-invalid", filmMissing ? "true" : "false");
+      if (!firstBad && filmMissing) { firstBad = form.querySelector("input[name=film]"); msg = errorText("film"); }
+      if (firstBad) { showError(msg); firstBad.focus(); return; }
+
+      const f = Object.fromEntries(new FormData(form));
+      const payload = {
+        vorname: f.vorname.trim(), nachname: f.nachname.trim(), email: f.email.trim(), klasse: f.klasse.trim(),
+        film: film ? film.value : "", anmerkung: f.anmerkung.trim(), website: f.website,
+      };
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Wird gesendet …';
+      const res = await api("register", payload);
+      btn.disabled = false;
+      btn.textContent = "Anmelden";
+      if (!res.ok) return showError(errorText(res.error));
+
+      $("form-card").hidden = true;
+      $("result").hidden = false;
+      if (res.resent) {
+        $("resent-mail").textContent = payload.email;
+        $("resent").hidden = false;
+      } else {
+        renderTicket($("ticket"), { id: res.id, ...payload });
+        $("t-link").href = ticketUrl(res.id);
+        $("ticket-actions").hidden = false;
+        loadVotes();
+      }
+      $("anmelden").scrollIntoView({ behavior: "smooth" });
+    });
+
+    $("again").addEventListener("click", () => {
+      form.reset();
+      $("result").hidden = true;
+      $("resent").hidden = true;
+      $("ticket-actions").hidden = true;
+      $("ticket").innerHTML = "";
+      $("form-card").hidden = false;
+      $("vorname").focus();
+    });
+  </script>
+</body>
+</html>

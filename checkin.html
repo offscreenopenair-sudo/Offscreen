@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#000000">
+  <title>Einlass</title>
+  <link rel="icon" href="assets/logo/offscreen-icon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/logo/offscreen-icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .counter { display: flex; gap: 2rem; font-variant-numeric: tabular-nums; }
+    .counter b { display: block; font-size: 2.2rem; line-height: 1; color: var(--white); }
+    .counter span { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
+    #reader { border-radius: 12px; overflow: hidden; background: #000; }
+    #reader video { display: block; width: 100% !important; }
+    .result { border-radius: 14px; padding: 1.4rem; text-align: center; display: grid; gap: 0.3rem; }
+    .result .big { font-size: 1.8rem; font-weight: 700; line-height: 1.1; }
+    .result .name { font-size: 1.15rem; font-weight: 700; }
+    .result.ok { background: var(--ok-bg); color: var(--ok); }
+    .result.warn { background: var(--warn-bg); color: var(--warn); }
+    .result.bad { background: var(--bad-bg); color: var(--bad); }
+    .stack { display: grid; gap: 1rem; }
+    .inline { display: flex; gap: 0.6rem; }
+    .inline input { flex: 1; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap narrow">
+      <a class="brand" href="index.html"><img src="assets/logo/offscreen-mark-weiss.svg" alt=""><span>Einlass</span></a>
+    </div>
+  </header>
+
+  <main class="wrap narrow stack" style="padding-block:1rem 3rem">
+    <div class="counter" id="counter" hidden>
+      <div><b id="c-in">0</b><span>eingecheckt</span></div>
+      <div><b id="c-all">0</b><span>angemeldet</span></div>
+    </div>
+
+    <section class="card stack" id="login">
+      <p class="demo-note" data-demo hidden>Demo-Modus: Die PIN ist 1234. Scannen lassen sich nur Tickets, die in diesem Browser angelegt wurden.</p>
+      <h2 style="font-size:1.4rem">Team-Login</h2>
+      <form id="pin-form" class="stack" novalidate>
+        <div class="field">
+          <label for="pin">Einlass-PIN</label>
+          <input id="pin" type="password" inputmode="numeric" autocomplete="off" required>
+        </div>
+        <div id="pin-error" class="msg bad" role="alert" hidden></div>
+        <button class="btn block" type="submit">Weiter</button>
+      </form>
+    </section>
+
+    <section class="card stack" id="desk" hidden>
+      <div id="reader"></div>
+      <button class="btn block" id="cam" type="button">Kamera starten</button>
+      <div id="result" class="result" aria-live="assertive" hidden></div>
+      <form id="manual" class="field" novalidate>
+        <label for="manual-id">Ticket-Nr. von Hand eingeben</label>
+        <div class="inline">
+          <input id="manual-id" autocomplete="off" placeholder="A1B2 C3D4 E5F6" maxlength="20">
+          <button class="btn ghost" type="submit">Prüfen</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <script src="config.js"></script>
+  <script src="common.js"></script>
+  <script>
+    const { E, api, parseTicketId, formatId, fillEventFields, errorText, filmById } = App;
+    fillEventFields();
+    document.title = "Einlass · " + E.name;
+    const $ = (id) => document.getElementById(id);
+    let pin = "";
+    try { pin = sessionStorage.getItem("einlass-pin") || ""; } catch {}
+
+    async function refreshStats() {
+      const s = await api("stats", { pin });
+      if (!s.ok) return s;
+      $("c-in").textContent = s.eingecheckt;
+      $("c-all").textContent = s.anmeldungen;
+      $("counter").hidden = false;
+      return s;
+    }
+
+    async function login(p) {
+      pin = p;
+      const s = await refreshStats();
+      if (!s.ok) {
+        $("pin-error").textContent = errorText(s.error);
+        $("pin-error").hidden = false;
+        return;
+      }
+      try { sessionStorage.setItem("einlass-pin", pin); } catch {}
+      $("login").hidden = true;
+      $("desk").hidden = false;
+    }
+    $("pin-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      $("pin-error").hidden = true;
+      login($("pin").value.trim());
+    });
+    if (pin) login(pin);
+
+    function show(kind, big, name, extra) {
+      const r = $("result");
+      r.className = "result " + kind;
+      r.innerHTML = "";
+      for (const [cls, text] of [["big", big], ["name", name], ["", extra]]) {
+        if (!text) continue;
+        const d = document.createElement("div");
+        if (cls) d.className = cls;
+        d.textContent = text;
+        r.append(d);
+      }
+      r.hidden = false;
+      if (navigator.vibrate) navigator.vibrate(kind === "ok" ? 80 : [120, 80, 120]);
+    }
+
+    let busy = false, lastId = "", lastAt = 0;
+    async function check(raw) {
+      const id = parseTicketId(raw);
+      if (!id) return show("bad", "Kein gültiges Ticket", "", "Dieser QR-Code gehört nicht zum Offscreen.");
+      const now = Date.now();
+      if (busy || (id === lastId && now - lastAt < 4000)) return; // gleiches Ticket nicht doppelt zählen
+      busy = true; lastId = id; lastAt = now;
+      show("warn", "Prüfe …", formatId(id), "");
+      const res = await api("checkin", { id, pin });
+      busy = false;
+      if (!res.ok) return show("bad", res.error === "not_found" ? "Ticket unbekannt" : "Fehler", formatId(id), errorText(res.error));
+      const who = res.vorname + " " + res.nachname;
+      const info = [res.klasse, filmById(res.film)?.titel && "Stimme: " + filmById(res.film).titel].filter(Boolean).join(" · ");
+      if (res.status === "already") show("warn", "Schon eingecheckt", who, "Bereits um " + res.zeit + " Uhr · " + info);
+      else show("ok", "Willkommen!", who, info);
+      refreshStats();
+    }
+
+    $("manual").addEventListener("submit", (e) => {
+      e.preventDefault();
+      check($("manual-id").value);
+      $("manual-id").value = "";
+    });
+
+    let scanner = null;
+    $("cam").addEventListener("click", async () => {
+      const b = $("cam");
+      if (scanner) {
+        await scanner.stop().catch(() => {});
+        scanner = null;
+        b.textContent = "Kamera starten";
+        return;
+      }
+      try {
+        scanner = new Html5Qrcode("reader");
+        await scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: { width: 230, height: 230 } }, (text) => check(text), () => {});
+        b.textContent = "Kamera stoppen";
+      } catch {
+        scanner = null;
+        show("bad", "Kamera nicht verfügbar", "", "Erlaube den Kamerazugriff im Browser. Die Seite muss über https:// geöffnet sein.");
+      }
+    });
+  </script>
+</body>
+</html>
