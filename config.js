@@ -5,7 +5,7 @@
 window.EVENT = {
   // URL der Google-Apps-Script-Web-App (siehe ANLEITUNG.md, Schritt 3).
   // Leer lassen = Demo-Modus: Daten bleiben nur in diesem Browser, Einlass-PIN: 1234
-  scriptUrl: "https://script.google.com/macros/s/AKfycby1wpfQ2_BOF8sZHvm1awof8QDh0qJdWOpbeTIdxOBiRZeGdVjIy8HtygbPJspkno7vxw/exec",
+  scriptUrl: "https://script.google.com/macros/s/AKfycbySrcUxK2vnpWBA6eLHm6AD7yPBM3pOBDrVPa8RESSFDCaD6oC5kx9gBfM2BMYLflHH/exec",
 
   name: "Offscreen",
   tagline: "Film ab, wenn es dunkel wird.",
