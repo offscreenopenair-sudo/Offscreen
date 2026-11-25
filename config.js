@@ -28,9 +28,10 @@ window.EVENT = {
     { id: "kindskoepfe", titel: "Kindsköpfe", genre: "Komödie", laufzeit: 102, fsk: 6, trailer: "https://www.youtube.com/watch?v=mPOB7j2a_Ro" },
     { id: "hangover", titel: "Hangover", genre: "Komödie", laufzeit: 100, fsk: 12, trailer: "https://www.youtube.com/watch?v=_lGl1cn9AS4" },
   ],
-  // Online-Anmeldung (mit Filmwahl) ist bis zu diesem Zeitpunkt möglich. Danach nur noch Vor-Ort-Akkreditierung.
+  // Online-Anmeldung ist bis anmeldungBis möglich, danach nur noch Vor-Ort-Akkreditierung.
+  // Abstimmen kann man nur bis abstimmungBis. Danach geht die Anmeldung ohne Filmwahl weiter.
   anmeldungBis: "2027-05-19T23:59:59",
-  abstimmungBis: "2027-05-19T23:59:59", // danach ist keine Filmwahl mehr möglich
+  abstimmungBis: "2027-03-29T23:59:59", // danach ist keine Filmwahl mehr möglich
   plaetzeOnline: 45, // nur zur Anzeige, die echte Grenze steht in Code.gs
   plaetzeVorOrt: 15,
   zwischenstandZeigen: false, // true = Zwischenstand auf der Startseite zeigen (braucht dann auch Code.gs-Anpassung)
@@ -38,6 +39,9 @@ window.EVENT = {
   // Kontakt: leer lassen, bis E-Mail und Kanäle feststehen
   kontaktEmail: "offscreen.openair@gmail.com",
   instagram: "", // z. B. "offscreen" (ohne @)
+
+  // Öffentliche Adresse der Website (für den QR-Code auf dem Plakat)
+  webadresse: "https://offscreen-openair.de/",
 
   impressumUrl: "impressum.html",
   datenschutzUrl: "datenschutz.html",

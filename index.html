@@ -65,7 +65,7 @@
     <section class="sec" id="filme">
       <div class="inner">
         <h2>Ihr wählt den Film.</h2>
-        <p class="sec-lead" id="vote-lead">Bei der Anmeldung gibst du deine Stimme ab. Der Film mit den meisten Stimmen läuft. Welcher das ist, bleibt bis zum Abend geheim.</p>
+        <p class="sec-lead" id="vote-lead">Bei der Anmeldung gibst du deine Stimme ab, bis zum 29. März. Der Film mit den meisten Stimmen läuft. Welcher das ist, bleibt bis zum Abend geheim.</p>
         <div class="films" id="films"></div>
         <p class="note">Alle Filme unter Vorbehalt der Vorführrechte. Die Altersfreigabe gilt auch am Abend.</p>
       </div>
@@ -170,7 +170,7 @@
           <details><summary>Bis wann kann ich mich anmelden?</summary><p id="faq-anmeldung">Online bis zum 19. Mai 2027. Am Abend selbst vergeben wir am Einlass noch eine begrenzte Zahl an Plätzen, solange welche frei sind. Mit Anmeldung bist du auf der sicheren Seite.</p></details>
           <details><summary>Was passiert bei Regen?</summary><p>Dann bekommen alle Angemeldeten eine E-Mail mit dem Ausweichort. Deshalb fragen wir bei der Anmeldung nach deiner E-Mail-Adresse.</p></details>
           <details><summary>Gibt es Essen und Getränke?</summary><p>Ja. Ab Einlass gibt es verschiedene Getränke und Topped Fries.</p></details>
-          <details><summary>Wie funktioniert die Filmwahl?</summary><p>Jede Anmeldung zählt als eine Stimme. Der Film mit den meisten Stimmen wird gezeigt. Das Ergebnis bleibt bis zum Abend geheim. Die Auswahl steht unter Vorbehalt der Vorführrechte.</p></details>
+          <details><summary>Wie funktioniert die Filmwahl?</summary><p>Bis zum 29. März 2027 zählt jede Anmeldung als eine Stimme. Danach kannst du dich bis zum 19. Mai weiter anmelden, aber nicht mehr abstimmen. Der Film mit den meisten Stimmen wird gezeigt. Das Ergebnis bleibt bis zum Abend geheim. Die Auswahl steht unter Vorbehalt der Vorführrechte.</p></details>
         </div>
         <div class="contact" id="kontakt">
           <p class="contact-q">Noch etwas offen? Oder Lust, uns zu unterstützen?</p>
@@ -276,6 +276,8 @@
 
     if (!open) {
       $("vote-lead").textContent = "Die Abstimmung ist beendet. Danke fürs Mitmachen! Welcher Film gewonnen hat, erfahrt ihr am Abend.";
+      document.querySelector("#anmelden h2").innerHTML = "Sichere dir<br>deinen Platz.";
+      document.querySelector("#anmelden .sec-lead").textContent = "Die Filmwahl ist vorbei, anmelden kannst du dich weiterhin. Deine Eintrittskarte mit QR-Code bekommst du sofort hier und per E-Mail.";
       $("film-field").hidden = true;
     } else if (E.abstimmungBis) {
       $("deadline").textContent = "(Abstimmung bis " + formatDeadline(E.abstimmungBis) + ")";

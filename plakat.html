@@ -6,28 +6,36 @@
   <meta name="robots" content="noindex">
   <title>Plakat · Offscreen</title>
   <style>
-    /* Druckvorlage A4 hochkant in CI-Farben. Feste Farben, damit der Druck immer gleich aussieht. */
-    :root { --red: #ac1327; --red-hell: #f0566a; --black: #000000; --light: #f5f5f5; --grey: #bbbbbb; color-scheme: light; }
+    /* Druckvorlage A4 hochkant im Stil der Website. Feste Farben, damit der Druck immer gleich aussieht.
+       Alle Größen hängen an der Plakatbreite (cqw), damit Bildschirm und Druck gleich aussehen. */
+    :root { --red: #ac1327; --red-hell: #f0566a; --black: #000000; --grey: #86868b; --hair: #2e2e30; color-scheme: light; }
     * { box-sizing: border-box; }
-    body { margin: 0; background: #dddddd; color: var(--black); font-family: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif; }
+    body { margin: 0; background: #d2d2d7; color: var(--black); font-family: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif; letter-spacing: -0.01em; }
     .bar { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; align-items: center; padding: 1rem 16px; font-size: 0.9rem; }
-    .bar button { font: 700 0.95rem/1 inherit; border: 0; border-radius: 999px; padding: 0.8rem 1.2rem; background: var(--red); color: #fff; cursor: pointer; }
+    .bar button { font: 500 0.95rem/1 inherit; border: 0; border-radius: 980px; padding: 0.8rem 1.3rem; background: var(--red); color: #fff; cursor: pointer; }
     .bar input { font: inherit; padding: 0.55rem 0.7rem; border: 1px solid #b7b7b7; border-radius: 8px; width: min(100%, 26rem); }
-    .page { width: min(210mm, 100% - 32px); aspect-ratio: 210 / 297; margin: 0 auto 2rem; background: var(--black); color: #fff; display: grid; grid-template-rows: auto 1fr auto; box-shadow: 0 10px 40px -20px rgb(0 0 0 / 0.5); overflow: hidden; position: relative; }
-    .page::before { content: ""; position: absolute; right: -25%; top: -15%; width: 90%; aspect-ratio: 1; background: radial-gradient(closest-side, rgb(172 19 39 / 0.35), transparent 70%); }
-    .top { position: relative; padding: 8% 9% 0; display: grid; gap: 1.2em; }
-    .top img { width: 78%; }
-    .top h1 { margin: 0; line-height: 0; }
-    .tag { color: var(--red-hell); font-weight: 700; font-size: clamp(0.95rem, 2.8vw, 1.5rem); }
-    .meta { display: flex; flex-wrap: wrap; gap: 0.3em 1.6em; font-size: clamp(0.75rem, 2.1vw, 1.1rem); }
-    .meta b { color: var(--red-hell); }
-    .mid { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 6%; align-items: center; padding: 6% 9%; }
-    .qrbox { background: #fff; padding: 3.5%; border-radius: 4%; width: clamp(110px, 30vw, 70mm); line-height: 0; }
+    .page {
+      width: min(210mm, 100% - 32px); aspect-ratio: 210 / 297; margin: 0 auto 2rem;
+      background: var(--black); color: #fff; container-type: inline-size;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 11cqw 9cqw 7cqw; box-shadow: 0 10px 40px -20px rgb(0 0 0 / 0.5); overflow: hidden;
+    }
+    .logo { margin: 0; line-height: 0; }
+    .logo img { width: 58cqw; height: auto; }
+    .title { margin: 8cqw 0 0; font-size: 11.2cqw; font-weight: 700; line-height: 1; letter-spacing: -0.045em; }
+    .sub { margin: 3.4cqw 0 0; font-size: 3.1cqw; line-height: 1.35; font-weight: 500; color: var(--grey); }
+    .sub b { color: #fff; font-weight: 500; }
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; margin-top: 8cqw; }
+    .facts div { border-left: 1px solid var(--hair); padding: 0.4cqw 2cqw; }
+    .facts div:first-child { border-left: 0; }
+    .facts b { display: block; font-size: 7cqw; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+    .facts span { display: block; margin-top: 1.4cqw; font-size: 2.5cqw; color: var(--grey); font-weight: 500; }
+    .scan { margin-top: auto; display: flex; flex-direction: column; align-items: center; }
+    .qrbox { background: #fff; padding: 2.2cqw; border-radius: 3.2cqw; width: 34cqw; line-height: 0; }
     .qrbox img, .qrbox canvas { width: 100% !important; height: auto !important; display: block; }
-    .mid h2 { margin: 0 0 0.4em; font-size: clamp(1.2rem, 4.4vw, 2.3rem); line-height: 1.05; }
-    .mid p { margin: 0; color: var(--grey); font-size: clamp(0.72rem, 1.9vw, 1rem); line-height: 1.45; }
-    .url { margin-top: 0.8em !important; color: #fff !important; font-weight: 700; word-break: break-all; }
-    .foot { position: relative; background: var(--red); color: #fff; padding: 3% 9%; font-size: clamp(0.65rem, 1.7vw, 0.9rem); font-weight: 700; display: flex; justify-content: space-between; gap: 1rem; }
+    .scan h2 { margin: 4cqw 0 0; font-size: 4.4cqw; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+    .url { margin: 1.6cqw 0 0; font-size: 3cqw; font-weight: 600; color: var(--red-hell); }
+    .foot { margin-top: 7cqw; width: 100%; padding-top: 3cqw; border-top: 1px solid var(--hair); display: flex; justify-content: space-between; gap: 2cqw; font-size: 2cqw; color: var(--grey); }
     @media print {
       @page { size: A4; margin: 0; }
       body { background: #fff; }
@@ -44,25 +52,20 @@
     <button type="button" onclick="window.print()">Drucken / als PDF speichern</button>
   </div>
   <div class="page">
-    <div class="top">
-      <h1><img src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen"></h1>
-      <p class="tag" data-event="tagline" data-hide-empty></p>
-      <div class="meta">
-        <span><b>Datum</b> <span data-event="datumKurz"></span></span>
-        <span><b>Einlass</b> <span data-event="einlass"></span> Uhr</span>
-        <span><b>Film</b> <span data-event="filmstart"></span> Uhr</span>
-        <span><b>Ort</b> <span data-event="ort"></span></span>
-      </div>
+    <h1 class="logo"><img src="assets/logo/offscreen-logo-weiss.png" alt="Offscreen"></h1>
+    <p class="title">Kino unter<br>freiem Himmel.</p>
+    <p class="sub"><b data-event="datum"></b><br>Skatepark auf dem Campus</p>
+    <div class="facts">
+      <div><b data-event="einlass"></b><span>Einlass &amp; Musik</span></div>
+      <div><b data-event="filmstart"></b><span>Film ab</span></div>
+      <div><b>0&nbsp;€</b><span>Eintritt</span></div>
     </div>
-    <div class="mid">
+    <div class="scan">
       <div class="qrbox" id="qr"></div>
-      <div>
-        <h2>Scannen, anmelden, Film wählen.</h2>
-        <p>Drei Komödien stehen zur Wahl. Deine Anmeldung ist deine Stimme, und dein QR-Ticket kommt per E-Mail.</p>
-        <p class="url" id="url"></p>
-      </div>
+      <h2>Scannen. Anmelden. Film wählen.</h2>
+      <p class="url" id="url"></p>
     </div>
-    <div class="foot"><span data-event="veranstalter"></span><span>Eintritt frei</span></div>
+    <div class="foot"><span data-event="veranstalter"></span><span>Filmwahl bis 29. März · Anmeldung bis 19. Mai</span></div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -71,10 +74,12 @@
   <script>
     App.fillEventFields();
     const input = document.getElementById("target");
-    input.value = new URL("index.html#anmelden", location.href).href.replace("index.html", "");
+    // Standard: die öffentliche Adresse aus config.js, sonst die Adresse, unter der dieses Plakat geöffnet ist
+    const basis = App.E.webadresse || new URL("./", location.href).href;
+    input.value = basis.replace(/\/?$/, "/") + "#anmelden";
     function draw() {
       const url = input.value.trim();
-      document.getElementById("url").textContent = url.replace(/^https?:\/\//, "").replace(/#.*$/, "");
+      document.getElementById("url").textContent = url.replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/#.*$/, "").replace(/\/$/, "");
       const box = document.getElementById("qr");
       box.innerHTML = "";
       new QRCode(box, { text: url, width: 600, height: 600, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.Q });
