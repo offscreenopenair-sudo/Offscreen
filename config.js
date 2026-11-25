@@ -41,7 +41,7 @@ window.EVENT = {
   instagram: "", // z. B. "offscreen" (ohne @)
 
   // Öffentliche Adresse der Website (für den QR-Code auf dem Plakat)
-  webadresse: "https://offscreen-openair.de/",
+  webadresse: "https://offscreenopenair-sudo.github.io/Offscreen/",
 
   impressumUrl: "impressum.html",
   datenschutzUrl: "datenschutz.html",
